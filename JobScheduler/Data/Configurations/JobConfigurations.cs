@@ -22,7 +22,6 @@ public class JobConfiguration : IEntityTypeConfiguration<Job>
         builder.Property(j => j.Payload)
             .IsRequired();
 
-        // Store the enum as readable text ("Pending") instead of a number
         builder.Property(j => j.Status)
             .HasConversion<string>()
             .HasMaxLength(20)
@@ -31,7 +30,6 @@ public class JobConfiguration : IEntityTypeConfiguration<Job>
         builder.Property(j => j.LastError)
             .HasMaxLength(2000);
 
-        // The worker's query: Status = Pending AND NextRunTime is due
         builder.HasIndex(j => new { j.Status, j.NextRunTime });
     }
 }
