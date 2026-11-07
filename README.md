@@ -4,7 +4,7 @@ A lightweight, self-hosted job scheduling service built with **ASP.NET Core Mini
 
 ![.NET](https://img.shields.io/badge/ASP.NET_Core-Minimal_APIs-512BD4)
 ![EF Core](https://img.shields.io/badge/ORM-EF_Core-512BD4)
-![Database](https://img.shields.io/badge/Database-SQLite-003B57)
+![Database](https://img.shields.io/badge/Database-SQL_Server-CC2927)
 ![Status](https://img.shields.io/badge/Status-Design_phase-orange)
 ![Version](https://img.shields.io/badge/Target-v1.0-blue)
 
@@ -380,7 +380,7 @@ Location: /jobs/3f2b8c1e-7a4d-4e5b-9c1a-2d6f0b8e1a77
 ```json
 {
   "ConnectionStrings": {
-    "Default": "Data Source=jobs.db"
+    "Default": "Server=localhost;Database=JobScheduler;Trusted_Connection=True;TrustServerCertificate=True"
   },
   "Scheduler": {
     "PollingIntervalSeconds": 10,
@@ -398,11 +398,21 @@ Location: /jobs/3f2b8c1e-7a4d-4e5b-9c1a-2d6f0b8e1a77
 | `RetryDelaySeconds` | Wait time before a failed job becomes due again |
 | `HttpTimeoutSeconds` | Maximum time the HTTP executor waits for a response |
 
+If you use SQL Server LocalDB (installed with Visual Studio), use this connection string instead:
+
+```json
+"Default": "Server=(localdb)\\MSSQLLocalDB;Database=JobScheduler;Trusted_Connection=True"
+```
+
 ---
 
 ## Getting Started
 
-**Prerequisites:** the .NET SDK.
+**Prerequisites:**
+
+- The .NET SDK
+- A running SQL Server instance (Express, LocalDB, or Docker). Unlike a file-based database, SQL Server must be running before the application starts.
+- The EF Core command-line tool: `dotnet tool install --global dotnet-ef`
 
 ```bash
 # Create the project
@@ -412,8 +422,12 @@ dotnet new web -n JobScheduler
 cd JobScheduler
 
 # Add dependencies
-dotnet add package Microsoft.EntityFrameworkCore.Sqlite
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
 dotnet add package Microsoft.EntityFrameworkCore.Design
+
+# Create the database schema (after the Job model and AppDbContext exist)
+dotnet ef migrations add InitialCreate
+dotnet ef database update
 
 # Run
 dotnet run
