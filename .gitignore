@@ -1,0 +1,41 @@
+# Build output
+[Bb]in/
+[Oo]bj/
+[Pp]ublish/
+out/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userprefs
+*.rsuser
+
+# VS Code and JetBrains Rider
+.vscode/
+.idea/
+
+# Test results
+TestResults/
+*.trx
+coverage/
+
+# Logs
+*.log
+logs/
+
+# Local database files (in case you test with SQLite or LocalDB files)
+*.db
+*.db-shm
+*.db-wal
+*.mdf
+*.ldf
+
+# User secrets and local environment files
+secrets.json
+.env
+.env.*
+
+# OS files
+Thumbs.db
+.DS_Store
