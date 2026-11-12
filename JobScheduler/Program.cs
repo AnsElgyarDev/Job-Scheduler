@@ -1,6 +1,6 @@
 using JobScheduler.Data;
+using JobScheduler.Endpoints;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.OpenApi;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +10,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddOpenApi();
 
-// after builder.Build()
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -20,5 +19,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapGet("/", () => "Job Scheduler is running");
+app.MapJobEndpoints();
 
 app.Run();
